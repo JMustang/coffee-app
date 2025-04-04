@@ -14,3 +14,7 @@ create_container:
 
 create_db:
 	docker exec -it ${DB_DOCKER_CONTAINER} createdb --username=${USER} --owner=${USER} ${DB_NAME}
+
+start_container:
+	docker start ${DB_DOCKER_CONTAINER}
+

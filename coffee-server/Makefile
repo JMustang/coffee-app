@@ -18,3 +18,8 @@ create_db:
 start_container:
 	docker start ${DB_DOCKER_CONTAINER}
 
+stop_container:
+	docker stop ${DB_DOCKER_CONTAINER}
+
+
+	

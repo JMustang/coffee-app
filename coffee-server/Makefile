@@ -43,3 +43,8 @@ build:
 
 run: build
 	./${BINARY}
+
+stop:
+	@echo "stopping server..."
+	@-pkill -SIGTERM -f "./${BINARY}"
+	@echo "server stopped..."

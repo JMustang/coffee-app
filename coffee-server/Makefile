@@ -40,3 +40,6 @@ build:
 	fi	
 	@echo "Building binary..."
 	go build -o ${BINARY} cmd/server/*.go
+
+run: build
+	./${BINARY}

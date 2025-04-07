@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"time"
 )
 
@@ -26,5 +27,21 @@ func connectPostgres(dsn string) (*DB, error) {
 	d.SetConnMaxLifetime(maxDbLifetime)
 
 	err = testDB(d)
+	if err != nil {
+		return nil, err
+	}
+
+	dbConn.DB = d
 	return dbConn, nil
+
+}
+
+func testDB(d *sql.DB) error {
+	err := d.Ping()
+	if err != nil {
+		fmt.Println("❌ Error", err)
+		return err
+	}
+	fmt.Println("*** ✅ Pinged database successfully! ***")
+	return nil
 }

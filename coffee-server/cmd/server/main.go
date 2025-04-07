@@ -14,7 +14,7 @@ type Config struct {
 }
 
 type Application struct {
-	Config Config
+	config Config
 }
 
 func (app *Application) Serve() error {
@@ -23,7 +23,7 @@ func (app *Application) Serve() error {
 		log.Fatal("❌ Error loading .env file")
 	}
 	port := os.Getenv("PORT")
-	fmt.Println("✅ API is listening on port", port)
+	fmt.Println("✅ API is listening on http://localhost:" + port)
 
 	srv := &http.Server{
 		Addr: fmt.Sprintf(":%s", port),
@@ -44,7 +44,8 @@ func main() {
 	// TODO: connection to db
 
 	app := &Application{
-		Config: cfg,
+		config: cfg,
+		// TODO: add models
 	}
 
 	err = app.Serve()

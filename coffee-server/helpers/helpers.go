@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/JMustang/coffee-app/services"
 )
 
 type Envelope map[string]interface{}
@@ -58,4 +60,15 @@ func WriteJSON(w http.ResponseWriter, status int, data interface{}, headers ...h
 		return err
 	}
 	return nil
+}
+
+func ErrorJSON(w http.ResponseWriter, err error, status ...int) {
+	statusCode := http.StatusBadRequest
+	if len(status) > 0 {
+		statusCode = status[0]
+	}
+	var payload services.JsonResponse
+	payload.Error = true
+	payload.Message = err.Error()
+	WriteJSON(w, statusCode, payload)
 }

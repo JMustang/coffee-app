@@ -112,3 +112,39 @@ func (c *Coffee) CreateCoffee(coffee Coffee) (*Coffee, error) {
 
 	return &coffee, nil
 }
+
+func (c *Coffee) UpdateCoffee(id string, body Coffee) (*Coffee, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	query := `
+        UPDATE coffees
+        SET
+            name = $1,
+            image = $2,
+            roast = $3,
+            price = $4,
+            grind_unit = $5,
+            region = $6,
+            updated_at = $7
+        WHERE id = $8
+        returning *
+    `
+
+	_, err := db.ExecContext(
+		ctx,
+		query,
+		body.Name,
+		body.Image,
+		body.Roast,
+		body.Price,
+		body.GrindUnit,
+		body.Region,
+		time.Now(),
+		id,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return &body, nil
+}

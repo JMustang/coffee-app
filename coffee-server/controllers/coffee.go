@@ -48,3 +48,18 @@ func CreateCoffee(w http.ResponseWriter, r *http.Request) {
 	}
 	helpers.WriteJSON(w, http.StatusOK, coffeeCreated)
 }
+
+func UpdateCoffee(w http.ResponseWriter, r *http.Request) {
+	var coffeeData services.Coffee
+	id := chi.URLParam(r, "id")
+	err := json.NewDecoder(r.Body).Decode(&coffeeData)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	coffeUpdated, err := coffee.UpdateCoffee(id, coffeeData)
+	if err != nil {
+		helpers.MessageLogs.ErrorLog.Println(err)
+	}
+	helpers.WriteJSON(w, http.StatusOK, coffeUpdated)
+}

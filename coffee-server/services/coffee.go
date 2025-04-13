@@ -148,3 +148,15 @@ func (c *Coffee) UpdateCoffee(id string, body Coffee) (*Coffee, error) {
 	}
 	return &body, nil
 }
+
+func (c *Coffee) DeleteCoffee(id string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	query := `DELETE FROM coffees WHERE id = $1`
+	_, err := db.ExecContext(ctx, query, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
